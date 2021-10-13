@@ -23,7 +23,7 @@ const createOne = async (request, reply) => {
     console.log(checkUser);
 
     const document = await userService.createOne(request.body);
-    reply.code(HttpStatus.CREATED).send(document);
+    reply.code(HttpStatus.CREATED).send({ success: true, user: document });
   } catch (e) {
     request.log.error(e);
   }
@@ -31,8 +31,15 @@ const createOne = async (request, reply) => {
 
 const signIn = async (request, reply) => {
   try {
-    const document = await userService.createOne(request.body);
-    reply.code(HttpStatus.CREATED).send(document);
+    const checkUser = await userService.findByUser(request.body.email);
+    if (!checkUser)
+      return reply.send({ success: false, msg: "Email not found !" });
+
+    if (request.body.password !== checkUser._doc.password) {
+      return reply.send({ success: false, msg: "Password is incorrect !" });
+    }
+
+    reply.code(HttpStatus.OK).send({ success: true, user: checkUser });
   } catch (e) {
     request.log.error(e);
   }
