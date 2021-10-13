@@ -1,6 +1,7 @@
 const fastify = require("fastify")({ logger: true });
-
+const { studentRoutes } = require("./routes/user/user-route");
 const PORT = 3000;
+const { dbService } = require("./helper/mongo.db");
 
 module.exports = fastify;
 
@@ -10,20 +11,16 @@ module.exports = fastify;
     // handleUncaughtErrors();
 
     // // Connect to DB
-    // if (process.env.NODE_ENV !== 'test') {
-    //     await dbService();
-
-    //     // queue listener
-    //     // initiateRabbitMQ();
-    // }
+    await dbService();
 
     // // Middlewares
     // fastify.use(cors());
 
-    // // Plugins
+    // Plugins
     // fastify.register(require('fastify-boom'));
     // fastify.register(infoRoutesMiddleware);
-    // fastify.register(v1RoutesMiddleware, { prefix: '/v1' });
+    //fastify.register(v1RoutesMiddleware, { prefix: '/v1' });
+    fastify.register(studentRoutes);
 
     // Server
     await fastify.listen(PORT, "0.0.0.0");
