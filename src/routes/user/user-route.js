@@ -1,7 +1,11 @@
 const HttpStatus = require("http-status-codes/index");
-const { findOne, createOne } = require("../../controllers/user-controller");
+const {
+  findOne,
+  createOne,
+  signIn,
+} = require("../../controllers/user-controller");
 
-const studentRoutes = (fastify, opts, next) => {
+const userRoutes = (fastify, opts, next) => {
   const routes = [
     {
       method: "GET",
@@ -13,10 +17,15 @@ const studentRoutes = (fastify, opts, next) => {
       url: "/user/create",
       handler: createOne,
     },
+    {
+      method: "POST",
+      url: "/signin",
+      handler: signIn,
+    },
   ];
 
   routes.forEach((route) => fastify.route(route));
   next();
 };
 
-module.exports = { studentRoutes };
+module.exports = { userRoutes };

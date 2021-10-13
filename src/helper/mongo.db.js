@@ -11,7 +11,6 @@ const uri = "mongodb://localhost:27017/film_api";
 
 async function dbService() {
   try {
-    console.log(uri);
     await mongoose.connect(uri, opts);
     logInfoDetails({ message: "Mongodb Connected" });
   } catch (error) {

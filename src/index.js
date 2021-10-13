@@ -1,5 +1,5 @@
 const fastify = require("fastify")({ logger: true });
-const { studentRoutes } = require("./routes/user/user-route");
+const { userRoutes } = require("./routes/user/user-route");
 const PORT = 3000;
 const { dbService } = require("./helper/mongo.db");
 
@@ -20,7 +20,7 @@ module.exports = fastify;
     // fastify.register(require('fastify-boom'));
     // fastify.register(infoRoutesMiddleware);
     //fastify.register(v1RoutesMiddleware, { prefix: '/v1' });
-    fastify.register(studentRoutes);
+    fastify.register(userRoutes);
 
     // Server
     await fastify.listen(PORT, "0.0.0.0");
