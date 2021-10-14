@@ -4,6 +4,7 @@ const {
   createOne,
   signIn,
 } = require("../../controllers/user-controller");
+const schema = require("../schema/user-schema");
 
 const userRoutes = (fastify, opts, next) => {
   const routes = [
@@ -15,6 +16,7 @@ const userRoutes = (fastify, opts, next) => {
     {
       method: "POST",
       url: "/user/create",
+      schema: schema.createOne,
       handler: createOne,
     },
     {
