@@ -22,9 +22,7 @@ This is movies system
 
 #
 
-**Basic APIs:**
-
-- information about the application and its health status
+## Basic APIs:
 
 **Get all films in system:**
 
@@ -33,6 +31,8 @@ This is movies system
 ```
 http://0.0.0.0:3000/film/all
 ```
+
+#
 
 **Log in**
 
@@ -64,6 +64,8 @@ http://0.0.0.0:3000/signin
 }
 ```
 
+#
+
 **Sign up**
 
 - Method: POST
@@ -86,6 +88,8 @@ http://0.0.0.0:3000/user/create
 }
 ```
 
+#
+
 **User views own profile**
 
 - Method: POST
@@ -103,6 +107,8 @@ http://0.0.0.0:3000/user/info
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTY4ZmVlODc3MGVlODM5OGNhNmUxODQiLCJpYXQiOjE2MzQyNzI2NTgsImV4cCI6MTYzNDM1OTA1OH0.IDOz5RbNI7TgcyHVnfStUOkOUMRFVm36ikpEUDMxb4k"
 }
 ```
+
+#
 
 **User follows a film**
 
@@ -122,6 +128,8 @@ http://0.0.0.0:3000/user/film/add
     "filmId": "6168f239ff384a73f065ca37"
 }
 ```
+
+#
 
 **User views own list of films**
 
