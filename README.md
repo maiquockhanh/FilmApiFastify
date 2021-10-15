@@ -22,6 +22,18 @@ This is movies system
 
 #
 
+**.env setting**
+
+- config your JWT_SECRET in .env file
+
+#
+
+**mongodb server setting**
+
+- config your connection string in src/helper/mongo.db.js
+
+#
+
 ## Basic APIs:
 
 **Get all films in system:**
@@ -31,6 +43,8 @@ This is movies system
 ```
 http://0.0.0.0:3000/film/all
 ```
+
+- NOTE: you must import 'film-sample-data.json' to "film" collection to view the sample data
 
 #
 
@@ -42,7 +56,7 @@ http://0.0.0.0:3000/film/all
 http://0.0.0.0:3000/signin
 ```
 
-**Sample Body**
+- Sample Body
 
 ######
 

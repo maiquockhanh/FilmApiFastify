@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "6167e2aec472310752892683"
+  },
+  "name": "Iron man",
+  "year": "2008"
+},{
+  "_id": {
+    "$oid": "61682fc7146fef67cbc4db5e"
+  },
+  "name": "Hulk",
+  "year": "2008"
+},{
+  "_id": {
+    "$oid": "6168f1afff384a73f065ca35"
+  },
+  "name": "Iron man 2",
+  "year": "2010"
+},{
+  "_id": {
+    "$oid": "6168f21eff384a73f065ca36"
+  },
+  "name": "Thor",
+  "year": "2011"
+},{
+  "_id": {
+    "$oid": "6168f239ff384a73f065ca37"
+  },
+  "name": "Captain America the first avenger",
+  "year": "2011"
+},{
+  "_id": {
+    "$oid": "6168f280ff384a73f065ca38"
+  },
+  "name": "The Avengers",
+  "year": "2012"
+}]
