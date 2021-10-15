@@ -53,7 +53,7 @@ http://0.0.0.0:3000/signin
 }
 ```
 
-**Sample response when login successfully**
+- Sample response when login successfully
 
 ######
 
@@ -74,7 +74,7 @@ http://0.0.0.0:3000/signin
 http://0.0.0.0:3000/user/create
 ```
 
-**Sample Body**
+- Sample Body
 
 ######
 
@@ -98,7 +98,7 @@ http://0.0.0.0:3000/user/create
 http://0.0.0.0:3000/user/info
 ```
 
-**Sample Body**
+- Sample Body
 
 ######
 
@@ -118,7 +118,7 @@ http://0.0.0.0:3000/user/info
 http://0.0.0.0:3000/user/film/add
 ```
 
-**Sample Body**
+- Sample Body
 
 ######
 
@@ -139,7 +139,7 @@ http://0.0.0.0:3000/user/film/add
 http://0.0.0.0:3000/user/film
 ```
 
-**Sample Body**
+- Sample Body
 
 ######
 
