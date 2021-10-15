@@ -19,7 +19,7 @@ const createOne = async (data) => {
  */
 const updateOne = async (whereClause, data) => {
   const repository = new Repository(userModel);
-  return repository.updateOne({ ...whereClause, _id: whereClause._id }, data);
+  return repository.updateOne(whereClause, data);
 };
 
 /**
@@ -30,10 +30,7 @@ const updateOne = async (whereClause, data) => {
  */
 const findOne = async (whereClause, projection = {}) => {
   const repository = new Repository(userModel);
-  return repository.findOne(
-    { ...whereClause, _id: whereClause._id },
-    projection
-  );
+  return repository.findOne(whereClause, projection);
 };
 
 const findByUser = async (whereClause, projection = {}) => {

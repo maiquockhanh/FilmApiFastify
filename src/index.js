@@ -1,7 +1,10 @@
 const fastify = require("fastify")({ logger: true });
-const { userRoutes } = require("./routes/user/user-route");
-const PORT = 3000;
+const { userRoute } = require("./routes/user/user-route");
+const { filmRoute } = require("./routes/film/film-route");
 const { dbService } = require("./helper/mongo.db");
+require("dotenv").config();
+
+const PORT = 3000;
 
 module.exports = fastify;
 
@@ -20,7 +23,8 @@ module.exports = fastify;
     // fastify.register(require('fastify-boom'));
     // fastify.register(infoRoutesMiddleware);
     //fastify.register(v1RoutesMiddleware, { prefix: '/v1' });
-    fastify.register(userRoutes);
+    fastify.register(userRoute);
+    fastify.register(filmRoute);
 
     // Server
     await fastify.listen(PORT, "0.0.0.0");

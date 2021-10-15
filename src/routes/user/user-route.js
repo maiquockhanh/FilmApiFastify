@@ -1,18 +1,15 @@
 const HttpStatus = require("http-status-codes/index");
 const {
-  findOne,
   createOne,
   signIn,
+  getInfo,
+  addFilm,
+  viewFilm,
 } = require("../../controllers/user-controller");
 const schema = require("../schema/user-schema");
 
-const userRoutes = (fastify, opts, next) => {
+const userRoute = (fastify, opts, next) => {
   const routes = [
-    {
-      method: "GET",
-      url: "/user/:id",
-      handler: findOne,
-    },
     {
       method: "POST",
       url: "/user/create",
@@ -22,7 +19,26 @@ const userRoutes = (fastify, opts, next) => {
     {
       method: "POST",
       url: "/signin",
+      schema: schema.signIn,
       handler: signIn,
+    },
+    {
+      method: "POST",
+      url: "/user/info",
+      schema: schema.token,
+      handler: getInfo,
+    },
+    {
+      method: "POST",
+      url: "/user/film/add",
+      schema: schema.addFilm,
+      handler: addFilm,
+    },
+    {
+      method: "POST",
+      url: "/user/film",
+      schema: schema.token,
+      handler: viewFilm,
     },
   ];
 
@@ -30,4 +46,4 @@ const userRoutes = (fastify, opts, next) => {
   next();
 };
 
-module.exports = { userRoutes };
+module.exports = { userRoute };

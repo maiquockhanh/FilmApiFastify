@@ -21,7 +21,7 @@ class Repository {
    * @returns {Promise<Query|*>}
    */
   async updateOne(whereClause = {}, document) {
-    return this.model.updateOne(whereClause, document);
+    return this.model.updateOne({ _id: whereClause }, document);
   }
 
   /**
@@ -31,12 +31,7 @@ class Repository {
    * @returns {Promise<Promise<*>|Query|void|Promise<*|undefined>|Promise<*>>}
    */
   async findOne(whereClause = {}, projection = {}) {
-    whereClause =
-      whereClause && whereClause._id
-        ? { ...whereClause, _id: ObjectId(whereClause._id) }
-        : whereClause;
-
-    return this.model.findOne(whereClause, projection);
+    return this.model.findOne({ _id: whereClause }, projection);
   }
 
   /**
@@ -56,7 +51,17 @@ class Repository {
    * @returns {Promise<*>}
    */
   async findAll(whereClause = {}, projection = {}) {
-    return this.model.findAll(whereClause, projection);
+    return this.model.find(whereClause, projection);
+  }
+
+  /**
+   *
+   * @param whereClause
+   * @param projection
+   * @returns {Promise<*>}
+   */
+  async findForUser(whereClause = {}, projection = {}) {
+    return this.model.find({ _id: { $in: whereClause } }, projection);
   }
 }
 
