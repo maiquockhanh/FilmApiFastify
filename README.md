@@ -5,7 +5,7 @@ This is movies system
 **Description**
 
 - fastify framework based backend api application
-- mongodb database
+- postgresql database
 - JWT Token for Authentication
 
 #
@@ -28,9 +28,9 @@ This is movies system
 
 #
 
-**mongodb server setting**
+**db server setting**
 
-- config your connection string in src/helper/mongo.db.js
+- config your connection info in src/postgres/db.js
 
 #
 
