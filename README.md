@@ -7,30 +7,13 @@ This is movies system
 - fastify framework based backend api application
 - postgresql database
 - JWT Token for Authentication
-
-#
-
-**Install dependencies:**
-
-- npm install
+- Require Docker and docker-compose
 
 #
 
 **Test application:**
 
-- npm start
-
-#
-
-**.env setting**
-
-- config your JWT_SECRET in .env file
-
-#
-
-**db server setting**
-
-- config your connection info in src/postgres/db.js
+- docker-compose up
 
 #
 
