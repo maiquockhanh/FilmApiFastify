@@ -13,7 +13,9 @@ This is movies system
 
 **Test application:**
 
-- docker-compose up
+```
+docker-compose up
+```
 
 #
 
