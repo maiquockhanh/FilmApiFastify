@@ -1,5 +1,4 @@
 const HttpStatus = require("http-status-codes");
-const mongoose = require("mongoose");
 const errorSchema = require("./common/errorSchema");
 const notFoundSchema = require("./common/notfoundSchema");
 

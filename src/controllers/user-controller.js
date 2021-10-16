@@ -1,18 +1,28 @@
 const HttpStatus = require("http-status-codes/index");
-const userService = require("../services/user-service");
-const filmService = require("../services/film-service");
+const {
+  findByUser,
+  createOneUser,
+  findByID,
+} = require("../postgres/user-model");
+const { findOneFilm } = require("../postgres/film-model");
+const {
+  findRelation,
+  addRelation,
+  findRelationByUser,
+} = require("../postgres/film-user-model");
 const jwt = require("jsonwebtoken");
 
 const createOne = async (request, reply) => {
   try {
-    const checkUser = await userService.findByUser(request.body.email);
-    if (checkUser)
+    const checkUser = await findByUser([request.body.email]);
+
+    if (checkUser.length !== 0)
       return reply
         .code(HttpStatus.BAD_REQUEST)
         .send({ success: false, msg: "Email has already existed" });
-    console.log(checkUser);
 
-    const document = await userService.createOne(request.body);
+    const document = await createOneUser(request.body);
+
     reply.code(HttpStatus.CREATED).send({ success: true, user: document });
   } catch (e) {
     request.log.error(e);
@@ -21,22 +31,25 @@ const createOne = async (request, reply) => {
 
 const signIn = async (request, reply) => {
   try {
-    const checkUser = await userService.findByUser(request.body.email);
-    console.log(request.body.email);
-    if (!checkUser)
+    const checkUser = await findByUser([request.body.email]);
+
+    if (checkUser.length === 0)
       return reply
         .code(HttpStatus.BAD_REQUEST)
         .send({ success: false, msg: "Email not found !" });
 
-    if (request.body.password !== checkUser.password) {
+    if (request.body.password !== checkUser[0].password) {
       return reply
         .code(HttpStatus.BAD_REQUEST)
         .send({ success: false, msg: "Password is incorrect !" });
     }
-
-    const token = jwt.sign({ userId: checkUser.id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { userId: checkUser[0].id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     reply.code(HttpStatus.OK).send({ success: true, token });
   } catch (e) {
@@ -56,18 +69,20 @@ const getInfo = async (request, reply) => {
 
       userId = decoded.userId;
     });
-    const checkUser = await userService.findOne(userId, (err, result) => {
-      if (!result)
-        return reply
-          .code(HttpStatus.BAD_REQUEST)
-          .send({ success: false, msg: "User not found!" });
-    });
+
+    const checkUser = await findByID([userId]);
+
+    if (checkUser.length === 0) {
+      return reply
+        .code(HttpStatus.BAD_REQUEST)
+        .send({ success: false, msg: "User not found!" });
+    }
 
     const info = {
-      email: checkUser.email,
-      firstName: checkUser.firstName,
-      middleName: checkUser.middleName,
-      lastName: checkUser.lastName,
+      email: checkUser[0].email,
+      firstName: checkUser[0].firstname,
+      middleName: checkUser[0].middlename,
+      lastName: checkUser[0].lastname,
     };
 
     reply.code(HttpStatus.OK).send({ success: true, info: info });
@@ -87,33 +102,27 @@ const addFilm = async (request, reply) => {
           .send({ success: false, msg: "Token is invalid !" });
       userId = decoded.userId;
     });
-    const checkUser = await userService.findOne(userId, (err, result) => {
-      if (!result)
-        return reply
-          .code(HttpStatus.BAD_REQUEST)
-          .send({ success: false, msg: "User not found !" });
-    });
-    await filmService.findOne(filmId, (err, result) => {
-      if (!result)
-        return reply
-          .code(HttpStatus.BAD_REQUEST)
-          .send({ success: false, msg: "Film not found !" });
-    });
 
-    const existed = checkUser.listFilm.findIndex((id) => {
-      return id.toString() === filmId;
-    });
-
-    if (existed !== -1)
+    const checkUser = await findByID([userId]);
+    if (checkUser.length === 0) {
       return reply
         .code(HttpStatus.BAD_REQUEST)
-        .send({ success: false, msg: "User has followed this film already" });
+        .send({ success: false, msg: "User not found!" });
+    }
 
-    const listFilm = [...checkUser.listFilm, filmId];
+    const checkFilm = await findOneFilm([filmId]);
+    if (checkFilm.length === 0)
+      return reply
+        .code(HttpStatus.BAD_REQUEST)
+        .send({ success: false, msg: "Film not found !" });
 
-    dataUpdate = { $set: { listFilm: listFilm } };
+    const checkRelation = await findRelation([userId, filmId]);
+    if (checkRelation.length !== 0)
+      return reply
+        .code(HttpStatus.BAD_REQUEST)
+        .send({ success: false, msg: "User has already followed this film !" });
 
-    const document = await userService.updateOne(userId, dataUpdate);
+    const document = await addRelation([userId, filmId]);
 
     reply.code(HttpStatus.OK).send({ success: true, msg: document });
   } catch (e) {
@@ -133,13 +142,14 @@ const viewFilm = async (request, reply) => {
 
       userId = decoded.userId;
     });
-    const checkUser = await userService.findOne(userId, (err, result) => {
-      if (!result)
-        return reply
-          .code(HttpStatus.BAD_REQUEST)
-          .send({ success: false, msg: "User not found !" });
-    });
-    const listFilm = await filmService.findForUser(checkUser.listFilm);
+
+    const checkUser = await findByID([userId]);
+    if (checkUser.length === 0) {
+      return reply
+        .code(HttpStatus.BAD_REQUEST)
+        .send({ success: false, msg: "User not found!" });
+    }
+    const listFilm = await findRelationByUser([userId]);
 
     reply.code(HttpStatus.OK).send({ success: true, listFilm: listFilm });
   } catch (e) {
