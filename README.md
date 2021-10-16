@@ -29,8 +29,6 @@ docker-compose up
 http://0.0.0.0:3000/film/all
 ```
 
-- NOTE: you must import 'film-sample-data.json' to "film" collection to view the sample data
-
 #
 
 **Log in**
