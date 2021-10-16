@@ -21,6 +21,10 @@ INSERT INTO viewer (firstName,middleName,lastName,email,password) VALUES (
   '12345678'
 );
 
+INSERT INTO film (name, year) VALUES (
+  'Iron Man', '2008'
+);
+
 create table viewerfilm(
   viewerId int,
   filmId Int,

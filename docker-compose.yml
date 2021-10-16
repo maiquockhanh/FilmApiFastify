@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  server:
+    build: .
+    ports:
+      - "3000:3000"
+  db:
+    image: "postgres"
+    ports:
+      - "4321:5432"
+    environment:
+      POSTGRES_PASSWORD: "26092001"
+      POSTGRES_USER: "docker"
+  db_viewer:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pgadmin4@pgadmin.org"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_LISTEN_PORT: 4000
+    ports:
+      - "4000:4000"
+    links:
+      - db
