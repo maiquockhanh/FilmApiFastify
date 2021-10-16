@@ -11,6 +11,7 @@ const {
   findRelationByUser,
 } = require("../postgres/film-user-model");
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = "jhwjw12841jqwrbh";
 
 const createOne = async (request, reply) => {
   try {
@@ -43,13 +44,9 @@ const signIn = async (request, reply) => {
         .code(HttpStatus.BAD_REQUEST)
         .send({ success: false, msg: "Password is incorrect !" });
     }
-    const token = jwt.sign(
-      { userId: checkUser[0].id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
+    const token = jwt.sign({ userId: checkUser[0].id }, JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
     reply.code(HttpStatus.OK).send({ success: true, token });
   } catch (e) {
@@ -61,7 +58,7 @@ const getInfo = async (request, reply) => {
   try {
     const token = request.body.token;
     var userId;
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    jwt.verify(token, JWT_SECRET, function (err, decoded) {
       if (decoded === undefined)
         return reply
           .code(HttpStatus.BAD_REQUEST)
@@ -95,7 +92,7 @@ const addFilm = async (request, reply) => {
   try {
     const { token, filmId } = request.body;
     var userId;
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    jwt.verify(token, JWT_SECRET, function (err, decoded) {
       if (decoded === undefined)
         return reply
           .code(HttpStatus.BAD_REQUEST)
@@ -134,7 +131,7 @@ const viewFilm = async (request, reply) => {
   try {
     const token = request.body.token;
     var userId;
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    jwt.verify(token, JWT_SECRET, function (err, decoded) {
       if (decoded === undefined)
         return reply
           .code(HttpStatus.BAD_REQUEST)
